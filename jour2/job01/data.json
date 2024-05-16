@@ -1,0 +1,21 @@
+{"tasks": [
+    {
+        "id":1,
+        "title": "Appeler psy",
+        "description": "Déplacer le psy au mois prochain",
+        "completed":false
+    },
+    {
+        "id":2,
+        "title": "Appeler Eve",
+        "description": "Lui demander si l'appartement de Colioure est disponible",
+        "completed":false
+    },
+    {
+        "id":3,
+        "title": "Aller au sport",
+        "description": "Pour cultiver mon corps et être BG à la plage",
+        "completed":false
+    }
+]
+}
