@@ -1,0 +1,86 @@
+job02 : show dbs
+Job03 : use.shop / db.product.insertOne({
+    name: "chaussure",
+    description: "une paire de chaussures",
+    price: 35,
+    quantity: 120
+})
+
+Job04 : db.product.insertMany([
+    {
+        name: "Pantalon noir",
+        description: "Un pantalon noir",
+        price: 14.99,
+        quantity: 12
+    },
+    {
+        name: "chaussettes",
+        description: "chaussettes cool !",
+        price: 6,
+        quantity: 6
+    }
+])
+
+Job05 : db.category.insertMany([
+    { name: "Chaussures", description: "Catégorie pour les chaussures" },
+    { name: "Vêtements", description: "Catégorie pour les vêtements" },
+    { name: "Accessoires", description: "Catégorie pour les accessoires" }
+])
+
+Job06 : show collections
+
+Job07 : db.category.find().pretty()
+
+Job08 : db.category.find().limit(2).pretty()
+
+Job09 : db.product.find().sort({ price: 1 }).pretty()
+
+Job10 : db.product.find().sort({ price: -1 }).pretty()
+
+Job11 : db.product.find({ price: { $gt: 5 }, quantity: { $lt: 100 } }).pretty()
+
+Job12 : db.product.find({ price: { $gt: 14.99 }, quantity: { $gt: 100 } }).pretty()
+
+Job13 : db.product.find({}, { _id: 0 }).pretty()
+
+Job14 : db.category.findOne({ _id: ObjectId("6645cb0eb6b95febd3a3cd43") })
+
+Job15 : db.category.updateOne({_id: ObjectId("6645cb0eb6b95febd3a3cd45")},{$set: {name:"Vétements pour enfants"}})
+
+Job16 : db.product.updateOne({_id: ObjectId("6645ca7eb6b95febd3a3cd41")},{$set: {category_id:ObjectId("6645cb0eb6b95febd3a3cd44")}})
+        db.product.aggregate([
+    {
+        $lookup: {
+            from: "category",
+            localField: "category_id",
+            foreignField: "_id",
+            as: "category"
+        }
+    }
+])
+
+Job17 : db.product.aggregate([
+    {
+        $group: {
+            _id: "$category_id",
+            count: { $sum: 1 }
+        }
+    },
+    {
+        $lookup: {
+            from: "category",
+            localField: "_id",
+            foreignField: "_id",
+            as: "category"
+        }
+    },
+    {
+        $unwind: "$category"
+    },
+    {
+        $sort: { count: 1 }
+    },
+    {
+        $limit: 1
+    }
+])
